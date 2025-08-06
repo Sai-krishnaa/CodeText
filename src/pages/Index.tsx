@@ -10,6 +10,7 @@ const Index = () => {
   const [text, setText] = useState("");
   const [shareCode, setShareCode] = useState("");
   const [isShared, setIsShared] = useState(false);
+  const [showPlayground, setShowPlayground] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -39,6 +40,7 @@ const Index = () => {
     setText("");
     setShareCode("");
     setIsShared(false);
+    setShowPlayground(false);
   };
 
   return (
@@ -68,47 +70,50 @@ const Index = () => {
           </Button>
         </div>
 
-        {/* Main Action Buttons */}
-        <div className="max-w-2xl mx-auto mb-12">
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="p-8 gradient-card shadow-soft border-0 animate-slide-up text-center hover:shadow-medium transition-smooth">
-              <div className="space-y-4">
-                <div className="p-4 rounded-full gradient-primary shadow-glow mx-auto w-fit">
-                  <Share2 className="h-8 w-8 text-primary-foreground" />
+        {/* Main Action Buttons - Show when not in playground */}
+        {!showPlayground && (
+          <div className="max-w-2xl mx-auto mb-12">
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="p-8 gradient-card shadow-soft border-0 animate-slide-up text-center hover:shadow-medium transition-smooth">
+                <div className="space-y-4">
+                  <div className="p-4 rounded-full gradient-primary shadow-glow mx-auto w-fit">
+                    <Share2 className="h-8 w-8 text-primary-foreground" />
+                  </div>
+                  <h3 className="text-xl font-bold">Send</h3>
+                  <p className="text-muted-foreground">Share your text with others</p>
+                  <Button 
+                    onClick={() => setShowPlayground(true)}
+                    className="w-full h-12 text-base gradient-primary shadow-medium hover:shadow-glow transition-bounce"
+                  >
+                    Start Sharing
+                  </Button>
                 </div>
-                <h3 className="text-xl font-bold">Send</h3>
-                <p className="text-muted-foreground">Share your text with others</p>
-                <Button 
-                  onClick={() => setIsShared(false)}
-                  className="w-full h-12 text-base gradient-primary shadow-medium hover:shadow-glow transition-bounce"
-                >
-                  Start Sharing
-                </Button>
-              </div>
-            </Card>
+              </Card>
 
-            <Card className="p-8 gradient-card shadow-soft border-0 animate-slide-up text-center hover:shadow-medium transition-smooth">
-              <div className="space-y-4">
-                <div className="p-4 rounded-full bg-secondary/20 border border-secondary/30 mx-auto w-fit">
-                  <Search className="h-8 w-8 text-secondary-foreground" />
+              <Card className="p-8 gradient-card shadow-soft border-0 animate-slide-up text-center hover:shadow-medium transition-smooth">
+                <div className="space-y-4">
+                  <div className="p-4 rounded-full bg-secondary/20 border border-secondary/30 mx-auto w-fit">
+                    <Search className="h-8 w-8 text-secondary-foreground" />
+                  </div>
+                  <h3 className="text-xl font-bold">Accept</h3>
+                  <p className="text-muted-foreground">View shared content</p>
+                  <Button 
+                    variant="outline"
+                    onClick={() => navigate("/view")}
+                    className="w-full h-12 text-base transition-smooth hover:shadow-soft"
+                  >
+                    Enter Code
+                  </Button>
                 </div>
-                <h3 className="text-xl font-bold">Accept</h3>
-                <p className="text-muted-foreground">View shared content</p>
-                <Button 
-                  variant="outline"
-                  onClick={() => navigate("/view")}
-                  className="w-full h-12 text-base transition-smooth hover:shadow-soft"
-                >
-                  Enter Code
-                </Button>
-              </div>
-            </Card>
+              </Card>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Text Sharing Form (when Send is clicked) */}
-        <div className="max-w-4xl mx-auto">
-          {!isShared ? (
+        {/* Text Sharing Form (Playground) - Show when playground is active */}
+        {showPlayground && (
+          <div className="max-w-4xl mx-auto">
+            {!isShared ? (
             <Card className="p-8 gradient-card shadow-soft border-0 animate-slide-up">
               <div className="space-y-6">
                 <div>
@@ -176,7 +181,8 @@ const Index = () => {
               </div>
             </Card>
           )}
-        </div>
+          </div>
+        )}
 
         {/* Features */}
         <div className="max-w-4xl mx-auto mt-16 grid md:grid-cols-3 gap-6">
