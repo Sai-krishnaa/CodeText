@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { Copy, Share2, Code2 } from "lucide-react";
+import { Copy, Share2, Code2, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -68,7 +68,45 @@ const Index = () => {
           </Button>
         </div>
 
-        {/* Main Content */}
+        {/* Main Action Buttons */}
+        <div className="max-w-2xl mx-auto mb-12">
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card className="p-8 gradient-card shadow-soft border-0 animate-slide-up text-center hover:shadow-medium transition-smooth">
+              <div className="space-y-4">
+                <div className="p-4 rounded-full gradient-primary shadow-glow mx-auto w-fit">
+                  <Share2 className="h-8 w-8 text-primary-foreground" />
+                </div>
+                <h3 className="text-xl font-bold">Send</h3>
+                <p className="text-muted-foreground">Share your text with others</p>
+                <Button 
+                  onClick={() => setIsShared(false)}
+                  className="w-full h-12 text-base gradient-primary shadow-medium hover:shadow-glow transition-bounce"
+                >
+                  Start Sharing
+                </Button>
+              </div>
+            </Card>
+
+            <Card className="p-8 gradient-card shadow-soft border-0 animate-slide-up text-center hover:shadow-medium transition-smooth">
+              <div className="space-y-4">
+                <div className="p-4 rounded-full bg-secondary/20 border border-secondary/30 mx-auto w-fit">
+                  <Search className="h-8 w-8 text-secondary-foreground" />
+                </div>
+                <h3 className="text-xl font-bold">Accept</h3>
+                <p className="text-muted-foreground">View shared content</p>
+                <Button 
+                  variant="outline"
+                  onClick={() => navigate("/view")}
+                  className="w-full h-12 text-base transition-smooth hover:shadow-soft"
+                >
+                  Enter Code
+                </Button>
+              </div>
+            </Card>
+          </div>
+        </div>
+
+        {/* Text Sharing Form (when Send is clicked) */}
         <div className="max-w-4xl mx-auto">
           {!isShared ? (
             <Card className="p-8 gradient-card shadow-soft border-0 animate-slide-up">
